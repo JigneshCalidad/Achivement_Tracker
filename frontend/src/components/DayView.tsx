@@ -73,14 +73,23 @@ export default function DayView({ date, dayData, onUpdate }: DayViewProps) {
         </div>
 
         <form onSubmit={handleAddAchievement} className="mb-4">
-          <input
-            type="text"
-            value={newAchievement}
-            onChange={(e) => setNewAchievement(e.target.value)}
-            placeholder="Add today's achievement..."
-            className="w-full px-4 py-2 bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            disabled={addingAchievement}
-          />
+          <div className="flex gap-2">
+            <input
+              type="text"
+              value={newAchievement}
+              onChange={(e) => setNewAchievement(e.target.value)}
+              placeholder="Add today's achievement..."
+              className="flex-1 px-4 py-2 bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-100 placeholder-gray-400"
+              disabled={addingAchievement}
+            />
+            <button
+              type="submit"
+              disabled={addingAchievement || !newAchievement.trim()}
+              className="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {addingAchievement ? '...' : '+'}
+            </button>
+          </div>
         </form>
 
         <div className="space-y-3">
@@ -115,14 +124,23 @@ export default function DayView({ date, dayData, onUpdate }: DayViewProps) {
         </div>
 
         <form onSubmit={handleAddTodo} className="mb-4">
-          <input
-            type="text"
-            value={newTodo}
-            onChange={(e) => setNewTodo(e.target.value)}
-            placeholder="Add todo..."
-            className="w-full px-4 py-2 bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            disabled={addingTodo}
-          />
+          <div className="flex gap-2">
+            <input
+              type="text"
+              value={newTodo}
+              onChange={(e) => setNewTodo(e.target.value)}
+              placeholder="Add todo..."
+              className="flex-1 px-4 py-2 bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-100 placeholder-gray-400"
+              disabled={addingTodo}
+            />
+            <button
+              type="submit"
+              disabled={addingTodo || !newTodo.trim()}
+              className="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {addingTodo ? '...' : '+'}
+            </button>
+          </div>
         </form>
 
         <div className="space-y-3">
