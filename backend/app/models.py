@@ -1,8 +1,11 @@
 from sqlalchemy import Column, Integer, String, Boolean, DateTime, Text, ForeignKey, Date
 from sqlalchemy.orm import relationship
-from datetime import datetime, date
+from datetime import datetime, date, timezone
 
 from app.core.database import Base
+
+def utcnow():
+    return datetime.now(timezone.utc)
 
 
 class User(Base):
@@ -14,8 +17,8 @@ class User(Base):
     display_name = Column(String, nullable=False, default="User")
     avatar_url = Column(String, nullable=True)
     quote = Column(Text, nullable=True, default="")
-    created_at = Column(DateTime, default=datetime.utcnow)
-    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    created_at = Column(DateTime(timezone=True), default=utcnow)
+    updated_at = Column(DateTime(timezone=True), default=utcnow, onupdate=utcnow)
     
     achievements = relationship("Achievement", back_populates="user", cascade="all, delete-orphan")
     todos = relationship("Todo", back_populates="user", cascade="all, delete-orphan")
@@ -30,8 +33,8 @@ class Achievement(Base):
     notes = Column(Text, nullable=True)
     date = Column(Date, nullable=False, index=True)
     completed = Column(Boolean, default=False)
-    created_at = Column(DateTime, default=datetime.utcnow)
-    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    created_at = Column(DateTime(timezone=True), default=utcnow)
+    updated_at = Column(DateTime(timezone=True), default=utcnow, onupdate=utcnow)
     
     user = relationship("User", back_populates="achievements")
 
@@ -47,8 +50,8 @@ class Todo(Base):
     completed = Column(Boolean, default=False)
     priority = Column(String, default="medium")  # low, medium, high
     due_time = Column(String, nullable=True)  # Optional time string like "14:30"
-    created_at = Column(DateTime, default=datetime.utcnow)
-    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    created_at = Column(DateTime(timezone=True), default=utcnow)
+    updated_at = Column(DateTime(timezone=True), default=utcnow, onupdate=utcnow)
     
     user = relationship("User", back_populates="todos")
 
