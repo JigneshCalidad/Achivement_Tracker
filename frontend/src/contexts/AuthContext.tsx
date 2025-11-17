@@ -31,7 +31,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const fetchUser = async () => {
     try {
-      const userData = await api.get('/user/me')
+      const userData = await api.get('/api/user/me')
       setUser(userData.data)
     } catch (error) {
       console.error('Failed to fetch user:', error)
@@ -43,7 +43,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }
 
   const login = async (email: string, password: string) => {
-    const response = await api.post('/auth/login', { email, password })
+    const response = await api.post('/api/auth/login', { email, password })
     const { access_token } = response.data
     setToken(access_token)
     localStorage.setItem('token', access_token)
