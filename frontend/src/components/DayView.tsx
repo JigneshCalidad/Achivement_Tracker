@@ -19,16 +19,18 @@ export default function DayView({ date, dayData, onUpdate }: DayViewProps) {
 
   const handleAddAchievement = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!newAchievement.trim()) return
+    const trimmedTitle = newAchievement.trim()
+    if (!trimmedTitle) return
 
     setAddingAchievement(true)
     try {
       const dateStr = format(date, 'yyyy-MM-dd')
-      await achievementsApi.create(dateStr, { title: newAchievement.trim() })
+      await achievementsApi.create(dateStr, { title: trimmedTitle })
       setNewAchievement('')
-      onUpdate()
-    } catch (error) {
+      await onUpdate()
+    } catch (error: any) {
       console.error('Failed to create achievement:', error)
+      alert(error.response?.data?.detail || 'Failed to add achievement. Please try again.')
     } finally {
       setAddingAchievement(false)
     }
@@ -36,16 +38,18 @@ export default function DayView({ date, dayData, onUpdate }: DayViewProps) {
 
   const handleAddTodo = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!newTodo.trim()) return
+    const trimmedTitle = newTodo.trim()
+    if (!trimmedTitle) return
 
     setAddingTodo(true)
     try {
       const dateStr = format(date, 'yyyy-MM-dd')
-      await todosApi.create(dateStr, { title: newTodo.trim() })
+      await todosApi.create(dateStr, { title: trimmedTitle })
       setNewTodo('')
-      onUpdate()
-    } catch (error) {
+      await onUpdate()
+    } catch (error: any) {
       console.error('Failed to create todo:', error)
+      alert(error.response?.data?.detail || 'Failed to add todo. Please try again.')
     } finally {
       setAddingTodo(false)
     }
@@ -79,13 +83,14 @@ export default function DayView({ date, dayData, onUpdate }: DayViewProps) {
               value={newAchievement}
               onChange={(e) => setNewAchievement(e.target.value)}
               placeholder="Add today's achievement..."
-              className="flex-1 px-4 py-2 bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-100 placeholder-gray-400"
+              className="flex-1 px-4 py-2 bg-white/10 dark:bg-white/5 border border-gray-300 dark:border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400"
               disabled={addingAchievement}
+              autoComplete="off"
             />
             <button
               type="submit"
               disabled={addingAchievement || !newAchievement.trim()}
-              className="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-white"
             >
               {addingAchievement ? '...' : '+'}
             </button>
@@ -130,13 +135,14 @@ export default function DayView({ date, dayData, onUpdate }: DayViewProps) {
               value={newTodo}
               onChange={(e) => setNewTodo(e.target.value)}
               placeholder="Add todo..."
-              className="flex-1 px-4 py-2 bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-100 placeholder-gray-400"
+              className="flex-1 px-4 py-2 bg-white/10 dark:bg-white/5 border border-gray-300 dark:border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400"
               disabled={addingTodo}
+              autoComplete="off"
             />
             <button
               type="submit"
               disabled={addingTodo || !newTodo.trim()}
-              className="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-white"
             >
               {addingTodo ? '...' : '+'}
             </button>
