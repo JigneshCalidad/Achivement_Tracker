@@ -1,4 +1,4 @@
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, ConfigDict
 from typing import Optional, List
 from datetime import date, datetime
 
@@ -26,8 +26,7 @@ class UserResponse(UserBase):
     created_at: datetime
     updated_at: datetime
     
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 # Auth Schemas
@@ -49,11 +48,11 @@ class LoginRequest(BaseModel):
 class AchievementBase(BaseModel):
     title: str
     notes: Optional[str] = None
-    date: date
     completed: bool = False
 
 
 class AchievementCreate(AchievementBase):
+    """Creation payloads derive date from the path parameter, not the body."""
     pass
 
 
@@ -64,26 +63,26 @@ class AchievementUpdate(BaseModel):
 
 
 class AchievementResponse(AchievementBase):
+    date: date
     id: int
     user_id: int
     created_at: datetime
     updated_at: datetime
     
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 # Todo Schemas
 class TodoBase(BaseModel):
     title: str
     notes: Optional[str] = None
-    date: date
     completed: bool = False
     priority: str = "medium"
     due_time: Optional[str] = None
 
 
 class TodoCreate(TodoBase):
+    """Creation payload date is inferred from the route."""
     pass
 
 
@@ -96,13 +95,13 @@ class TodoUpdate(BaseModel):
 
 
 class TodoResponse(TodoBase):
+    date: date
     id: int
     user_id: int
     created_at: datetime
     updated_at: datetime
     
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 # Day View Schemas
