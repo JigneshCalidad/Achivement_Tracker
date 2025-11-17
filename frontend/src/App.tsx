@@ -11,8 +11,13 @@ function AppRoutes() {
   const { theme } = useTheme()
 
   useEffect(() => {
-    document.documentElement.classList.toggle('light', theme === 'light')
-    document.documentElement.classList.toggle('dark', theme === 'dark')
+    if (theme === 'light') {
+      document.body.classList.add('light')
+      document.body.classList.remove('dark')
+    } else {
+      document.body.classList.add('dark')
+      document.body.classList.remove('light')
+    }
   }, [theme])
 
   if (loading) {
